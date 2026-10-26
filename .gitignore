@@ -1,0 +1,18 @@
+# Secrets
+.env
+
+# Patient data (kabhi GitHub par nahi jana chahiye)
+data/
+
+# Virtual environment
+ehr-venv/
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Logs aur backups
+*.log
+backups/
+*.sql.gz

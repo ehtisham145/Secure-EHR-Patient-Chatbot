@@ -1,0 +1,79 @@
+# Add Postgress SQL
+sudo apt update  (Install the latest updated software on ubuntu server)
+sudo apt install -y curl ca-certificates  (Install the Https certificates on server)
+sudo install -d  /usr/share/postgresql/-common/pgdg  (Install a folder in which 
+we will kept postgress security)
+sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
+sudo sh -c 'echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+(This key is used to verify whether the key officially belong to the postgress software)
+
+
+# Install PG14
+sudo apt update ( update the packages list)
+sudo apt instlall -y postgresql-14 postgresql-contrib-14
+( Install the main database server with the extra tools and extension)
+ 
+
+# Open postgresql.conf and change listen_addresses
+sudo nano /etc/postgresql/14/main/postgresql.conf
+# Update line to: listen_addresses = '*'
+
+# Open pg_hba.conf and allow passowrd authorization
+sudo nano /etc/postgresql/14/main/pg_hba.conf
+# Add this line at the bottom:
+# host    all             all             0.0.0.0/0               scram-sha-256
+
+
+# By Default when we install the postgres on VPS server the Default username is postgres with sudo powers
+and the tool used for creating database first time  -u we run the postgres with username of postgres
+Initially the Default user postgres can only cretae database psql is the command line tool with the 
+help of this we communicate with the database -c means we are going to run the command on database
+sudo -u postgres psql -c CREATE DATABASE ehr_db; 
+
+
+# SQL Queries
+CREATE USER ehtisham WITH PASSWORD 'your_password';  
+(Create a database user with password rightnow this user can do nothinhg later we will assign the permissions for user)
+
+ALTER ROLE ehtisham SET client_encoding to 'utf-8';
+
+ALTER ROLE fde_admin SET default_transaction_isolation TO 'read committed';
+(When you are seeing the data of the users then see only that data which belongs to both of the user
+and is properly commited no uncommited changes will be viewed by third person)
+
+ALTER ROLE ehtisham SET timezone to 'UTC';
+(Any thing  Relate to time will be store in world standard format in database)
+
+GRANT ALL PREVILIAGES ON DATABASE ehr_db to ehtisham;
+
+\c ehr_db # When run this command on server you will be now inside your EHR_DB query editor will open
+GRANT ALL ON SCHEMA public TO fde_admin;
+\q  close the query editor
+
+uv pip install pandas psycopg2-binary python-dotenv sqlalchemy
+
+python scripts/01_ingest_baseline_data.py
+
+if any error :
+```
+OPTIONAL (only if postgres is not running after the ec2 restart) : 
+```
+sudo systemctl status PostgreSQL
+sudo systemctl start postgresql
+sudo systemctl stop postgresql
+sudo systemctl restart postgresql <-- use this
+```
+
+# Install the PG Vector extension on VPS server
+
+python scripts/02_verify_ingestion.py
+(You can also instll pg vector via API )
+sudo apt update;
+sudo apt install -y postgresql-14-pgvector
+
+
+# Confirm the extension
+ls /usr/share/postgresql/14/extension/vector*
+
+
+
