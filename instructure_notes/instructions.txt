@@ -76,4 +76,5 @@ sudo apt install -y postgresql-14-pgvector
 ls /usr/share/postgresql/14/extension/vector*
 
 
-
+# Start the Pg-Vector Database in VPS
+ssh -L 5433:localhost:5432 ehtisham@187.127.231.215
