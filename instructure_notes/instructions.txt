@@ -78,3 +78,8 @@ ls /usr/share/postgresql/14/extension/vector*
 
 # Start the Pg-Vector Database in VPS
 ssh -L 5433:localhost:5432 ehtisham@187.127.231.215
+
+
+# Now we are going to use PII (Personal Identifable Information Reduction) The main purpose of 
+# this is to remove personal identifyable Information from the data before passing the Information 
+# to AI according to HIPPA compliants never pass the personal Information to AI  
