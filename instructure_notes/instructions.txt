@@ -79,7 +79,20 @@ ls /usr/share/postgresql/14/extension/vector*
 # Start the Pg-Vector Database in VPS
 ssh -L 5433:localhost:5432 ehtisham@187.127.231.215
 
+# Scripts
+
+python scripts/01_ingest_baseline_data.py
+python scripts/02_verify_ingestion
+python scripts/03_apply_vector_schema.py
+python scripts/04_generate_embeddings.py
+python scripts/05_test_vector_search.py
+
+
+python src/pii_redaction/presidio_service.py
 
 # Now we are going to use PII (Personal Identifable Information Reduction) The main purpose of 
 # this is to remove personal identifyable Information from the data before passing the Information 
 # to AI according to HIPPA compliants never pass the personal Information to AI  
+# The main purpose of guard rails is to accept the user Information and to reject the
+# user Information we apply guard rails on llm in order to stop them from leaking personal 
+# or sensitive information in front of the user
