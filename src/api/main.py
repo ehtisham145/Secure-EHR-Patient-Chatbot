@@ -47,7 +47,7 @@ def get_db_engine():
     db_name = os.getenv("DB_NAME")
     
     if db_host:
-        DB_dURL = f"postgresql+psycopg://{db_user}:{db_pass}@{db_host}:{db_port}/{db_name}"
+        DB_URL = f"postgresql+psycopg://{db_user}:{db_pass}@{db_host}:{db_port}/{db_name}"
     else:
         DB_URL = os.getenv("POSTGRES_URL", "postgresql+psycopg://postgres:password@localhost:5432/clinical_db")
     
